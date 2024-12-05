@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Hunter Wild</title>
+
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="stylesheet" href="./style2.css">
+
+    <script type="text/javascript" src="./main.js" defer></script>
+    <script type="text/javascript" src="./treasure.js" defer></script>
+    <script src="./phaser.2.4.2.min.js"></script>
+
+
+</head>
+
+<body class="container">
+    <h1 class="contenth1">詹宇航 20220441220</h1>
+    <h3 style="text-align: center;">目录</h3>
+    <table border="1" cellspacing='0' cellpadding='20' style="margin-left: auto; margin-right: auto;">
+        <td><a href="#1">第一次作业</a></td>
+        <td><a href="#2">第二次作业<b>--(gallrey图片)</b></a></td>
+        <td><a href="#3">第三次作业<b>--(弹球)</b></a></td>
+        <td><a href="#4">第四次作业<b>--(序列动画)</b></a></td>
+        <td><a href="#5">第五次作业<b>--(寻宝游戏)</b></a></td>
+        <td><a href="#6">第六次作业<b>--(客户端API--寻宝游戏2.0)</b></a></td>
+        <td><a href="#7">第7次作业<b>--(2D breakout game)</b></a></td>
+    </table>
+
+
+
+    <h2 id="1" style="text-align: center;">第一次作业</h2>
+    <div style="text-align: center;">
+        <img src="./images/ok.png" style="width: 250px; height: 250px;">
+        <video width="500" height="250" controls>
+            <source src="./apex.mp4" type="video/mp4">
+        </video>
+        <img src="./images/highschool.jpg" style="width: 250px; height: 250px;">
+        <audio controls>
+            <source src="./audios/ggbond.mp3" type="audio/mp3">
+        </audio>
+    </div>
+    <div style="text-align: center;">
+        <table border="1" style="margin-left: auto; margin-right: auto;" cellspacing=0>
+            <tr class="contentbody">
+                <td>1.我学会了使用github的page功能搭建静态网站，以及如何对网站进行更新。对于网站的搭建内容我学会了在网页上放置图片，视频和音频</td>
+            </tr>
+            <tr class="contentbody">
+                <td>2.我学会了调节字体，字体大小和颜色</td>
+            </tr>
+            <tr class="contentbody">
+                <td>3.我学会了调节各个元素的绝对位置</td>
+            </tr>
+            <tr class="contentbody">
+                <td>4.我学会了使用表格</td>
+            </tr>
+            <tr class="contentbody">
+                <td>5.我学会了连接外部的css文件，并用其设置了html的背景</td>
+            </tr>
+        </table>
+    </div>
+
+
+    <h2 id="2" style="text-align: center;">第二次作业</h2>
+    <div style="text-align: center;">
+        <img src="./images/1.png" class="img-size" onclick="changeImage(this.src)">
+        <img src="./images/2.png" class="img-size" onclick="changeImage(this.src)">
+        <img src="./images/3.png" class="img-size" onclick="changeImage(this.src)">
+        <img src="./images/4.png" class="img-size" onclick="changeImage(this.src)">
+    </div>
+
+    <div style="text-align: center;">
+        <img img src="./images/1.png" id="main" style="height: 600px; width: 815px;">
+        <script src="./main.js"> </script>
+    </div>
+
+
+    <h2 id="3" style="text-align: center;">第三次作业</h2>
+    <h2 class="h2">弹球</h2>
+    <div style="text-align: center;">
+        <h2> WASD——>移动<br>按下j——>释放一个苦无分身<br>当场上存在苦无分身时再次按下j——>瞬移到苦无位置<br><b style="color: brown;">如果没有相关图像和音效请等待网页加载</b>
+        </h2>
+        <p></p>
+        <canvas></canvas>
+
+        <audio id="myaudio" src="./audios/fls.MP3" style="display:none;"></audio>
+        <audio id="myaudio2" src="./audios/fs.mp3" style="display:none;"></audio>
+
+        <script>
+            const para = document.querySelector("p");
+            const canvas = document.querySelector("canvas");
+            const ctx = canvas.getContext("2d");
+
+            const width = (canvas.width = window.innerWidth);
+            const height = (canvas.height = window.innerHeight);
+
+
+            const BALLS_COUNT = 25;
+            const BALL_SIZE_MIN = 10;
+            const BALL_SIZE_MAX = 20;
+            const BALL_SPEED_MAX = 7;
+
+            const avatimage = new Image();
+            avatimage.src = './images/kuwu.png';
+
+            const audio = document.getElementById('myaudio');
+            const audio2 = document.getElementById('myaudio2')
+
+            function random(min, max) {
+                return Math.floor(Math.random() * (max - min)) + min;
+            }
+
+            function randomColor() {
+                return (
+                    "rgb(" +
+                    random(0, 255) +
+                    ", " +
+                    random(0, 255) +
+                    ", " +
+                    random(0, 255) +
+                    ")"
+                );
+            }
+
+            function getRandomSpeed(maxSpeed) {
+
+                const random = Math.random();
+                return random < 0.5 ? -maxSpeed : maxSpeed;
+            }
+
+
+            class Shape {
+                constructor(x, y, velX, velY, exists) {
+                    this.x = x;
+                    this.y = y;
+                    this.velX = velX;
+                    this.velY = velY;
+                    this.exists = exists;
+                }
+            }
+
+            class Ball extends Shape {
+                constructor(x, y, velX, velY, color, size, exists) {
+                    super(x, y, velX, velY, exists);
+
+                    this.color = color;
+                    this.size = size;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.fillStyle = this.color;
+                    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+
+                update() {
+                    if (this.x + this.size >= width) {
+                        this.velX = -this.velX;
+                        this.color = randomColor();
+                    }
+
+                    if (this.x - this.size <= 0) {
+                        this.velX = -this.velX;
+                        this.color = randomColor();
+                    }
+
+                    if (this.y + this.size >= height) {
+                        this.velY = -this.velY;
+                        this.color = randomColor();
+                    }
+
+                    if (this.y - this.size <= 0) {
+                        this.velY = -this.velY;
+                        this.color = randomColor();
+                    }
+
+                    this.x += this.velX;
+                    this.y += this.velY;
+                }
+
+                collisionDetect() {
+                    for (let j = 0; j < balls.length; j++) {
+                        if (!(this === balls[j])) {
+                            const dx = this.x - balls[j].x;
+                            const dy = this.y - balls[j].y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+
+                            if (distance < this.size + balls[j].size && balls[j].exists) {
+                                this.velX = - this.velX;
+                                this.velY = - this.velY;
+                                balls[j].color = this.color = randomColor();
+
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+            class Hunter extends Shape {
+                constructor(x, y, exists) {
+                    super(x, y, exists);
+                    this.velX = 20;
+                    this.velY = 20;
+                    this.color = "yellow";
+                    this.size = 25;
+                    this.setControls();
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.strokeStyle = this.color;
+                    ctx.lineWidth = 3;
+                    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+                    ctx.stroke();
+                }
+
+                checkBounds() {
+                    if (this.x + this.size >= width) {
+                        this.x -= this.size;
+                    }
+
+                    if (this.x - this.size <= 0) {
+                        this.x += this.size;
+                    }
+
+                    if (this.y + this.size >= height) {
+                        this.y -= this.size;
+                    }
+
+                    if (this.y - this.size <= 0) {
+                        this.y += this.size;
+                    }
+                }
+
+                setControls() {
+                    window.onkeydown = (e) => {
+                        switch (e.key) {
+                            case "a":
+                            case "A":
+                            case "ArrowLeft":
+                                this.x -= this.velX;
+                                break;
+                            case "d":
+                            case "D":
+                            case "ArrowRight":
+                                this.x += this.velX;
+                                break;
+                            case "w":
+                            case "W":
+                            case "ArrowUp":
+                                this.y -= this.velY;
+                                break;
+                            case "s":
+                            case "S":
+                            case "ArrowDown":
+                                this.y += this.velY;
+                                break;
+                            case "j":
+                            case "J":
+                                if (a.exists == true) {
+                                    this.x = a.x;
+                                    this.y = a.y;
+                                    audio.play();
+                                    a.exists = false;
+                                }
+                                else {
+                                    a.exists = true;
+                                    a.velX = getRandomSpeed(3);
+                                    a.velY = getRandomSpeed(3);
+                                    audio2.play();
+                                }
+                                break;
+
+                        }
+                    };
+                }
+
+                collisionDetect() {
+                    for (let j = 0; j < balls.length; j++) {
+                        if (balls[j].exists) {
+                            const dx = this.x - balls[j].x;
+                            const dy = this.y - balls[j].y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+
+                            if (distance < this.size + balls[j].size) {
+                                balls[j].exists = false;
+                                count--;
+                                para.textContent = "还剩 " + count + " 个球";
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            class avat extends Ball {
+                constructor(x, y, exists, image) {
+                    super(x, y, exists);
+                    this.velX = 5;
+                    this.velY = 5;
+                    this.color = 'white';
+                    this.size = 20;
+                    this.image = image;
+                    this.imageLoaded = false;
+                }
+
+                onImageLoad() {
+                    this.imageLoaded = true;
+                }
+
+                draw() {
+                    if (this.imageLoaded) {
+
+                        ctx.drawImage(this.image, this.x - this.size, this.y - this.size, this.size * 2, this.size * 4);
+                    } else {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fillStyle = 'gray';
+                        ctx.fill();
+                    }
+                }
+
+                update() {
+                    if (this.x + this.size >= width) {
+                        this.velX = -this.velX;
+                    }
+
+                    if (this.x - this.size <= 0) {
+                        this.velX = -this.velX;
+                    }
+
+                    if (this.y + this.size >= height) {
+                        this.velY = -this.velY;
+                    }
+
+                    if (this.y - this.size <= 0) {
+                        this.velY = -this.velY;
+                    }
+
+                    this.x += this.velX;
+                    this.y += this.velY;
+                }
+
+
+            }
+
+            /////////////////////////////////////////////////
+            const balls = [];
+            let count = 0;
+
+
+            const hunterball = new Hunter(
+                random(0, width),
+                random(0, height),
+                true,
+            );
+            let a;
+            function init_a() {
+                a = new avat(hunterball.x, hunterball.y, false, avatimage);
+                avatimage.onload = () => {
+                    a.onImageLoad();
+                };
+            }
+            init_a();
+
+
+            loop();
+
+            function loop() {
+
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, width, height);
+
+
+                while (balls.length < BALLS_COUNT) {
+                    const size = 20
+                    const ball = new Ball(
+                        random(0 + size, width - size),
+                        random(0 + size, height - size),
+                        3,
+                        3,
+                        randomColor(),
+                        size,
+                        true,
+                    );
+                    balls.push(ball);
+                    count++;
+                    para.textContent = "还剩 " + count + " 个球";
+                }
+
+                for (let i = 0; i < balls.length; i++) {
+                    if (balls[i].exists) {
+                        balls[i].draw();
+                        balls[i].update();
+                        balls[i].collisionDetect();
+                    }
+                }
+
+                hunterball.draw();
+                hunterball.checkBounds();
+                hunterball.collisionDetect();
+                if (a.exists == true) {
+                    a.draw();
+                    a.update();
+                }
+
+
+                requestAnimationFrame(loop);
+            }
+        </script>
+    </div>
+
+
+    <h2 id="4" style="text-align: center;">第四次作业</h2>
+    <h2 class="h2">序列动画</h2>
+    <div class="alice-container">
+        <div style="position: absolute; top: 50% ; left : 20%; font-size: 40px; color: #0bc3ec;">请点击右上角的图片</div>
+
+        <img id="alice1" src="./images/alice.svg" role="img" alt="silhouette " onclick="start()" class="img-size">
+        <img id="alice2" src="./images/alice.svg" role="img" alt="silhouette " class="img-size">
+        <img id="alice3" src="./images/alice.svg" role="img" alt="silhouette " class="img-size">
+        <img id="alice4" src="./images/alice.svg" role="img" alt="silhouette " class="img-size">
+
+    </div>
+
+
+    <h2 id="5" style="text-align: center;">第五次作业</h2>
+    <h2 class="h2">寻宝游戏</h2>
+    <div>
+        <button id="startButton" style="height: 50px; width: 100px;">开始寻宝</button>
+        <script src="treasure.js"></script>
+        <div id="output" class="game-div2" style="font-size: 20px; text-align: center;"></div>
+    </div>
+
+
+    <h2 id='6' style="text-align: center;">第六次作业</h2>
+    <h2 class="h2">客户端API(寻宝游戏2.0)</h2>
+    <h3 style="text-align: center;">宝箱|战斗 二选一,关卡数越高怪物伤害越高,角色伤害越高(靠打开宝箱提升)战斗胜利概率越高,活到最后就能找到最终宝箱！</h3>
+    <div id="game1" class="game-div">
+        <script src="treasure2.js"></script>
+    </div>
+
+    <h2 id="7" style="text-align: center;">第七次作业</h2>
+    <h2 class="h2">2D breakout game</h2>
+
+    <div id="game2" class="game-div">
+        <script src="Phasergame.js"></script>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+body {
+    background-color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.container {
+    position: relative;
+    /* 设置为相对定位，以便其子元素可以相对于它进行绝对定位 */
+    width: 100%;
+    /* 容器宽度 */
+    height: 500px;
+    /* 容器高度，根据需要调整 */
+    overflow: scroll;
+    /* 如果图片超出容器，则隐藏超出部分 */
+}
+
+.container2 {
+    position: relative;
+    /* 设置为相对定位，以便其子元素可以相对于它进行绝对定位 */
+    width: 100%;
+    /* 容器宽度 */
+    height: 750px;
+    /* 容器高度，根据需要调整 */
+    overflow: auto;
+    /* 如果图片超出容器，则隐藏超出部分 */
+}
+
+.contenth1 {
+    font-family: Arial, sans-serif;
+    /* 设置字体族 */
+    font-size: 30px;
+    /* 设置字体大小 */
+    color: #ce0606;
+    /* 设置字体颜色 */
+
+}
+
+.contentbody {
+    font-family: Arial, sans-serif;
+    /* 设置字体族 */
+    font-size: 20px;
+    /* 设置字体大小 */
+    color: #000000;
+    /* 设置字体颜色 */
+}
+
+.photo {
+    position: absolute;
+    /* 设置为绝对定位 */
+}
+
+
+#photo2 {
+    bottom: 100px;
+    right: 100px;
+}
+
+.img-size {
+    width: 200px;
+    height: 150px;
+}
+
+.text-container {
+    position: relative;
+    top: 0;
+    /* 放置在容器的顶部 */
+    left: 0;
+    /* 放置在容器的左侧，与图片对齐 */
+    width: 100%;
+    /* 与图片宽度相同 */
+}
+
+.h2 {
+    text-align: center;
+}
+
+
+.game-div {
+    background-image: url('./images/bg.gif');
+    width: 100%;
+    /* 设置宽度 */
+    height: 175%;
+    /* 设置高度 */
+    background-size: auto;
+    /* 使背景图像覆盖整个 div */
+    background-position: center;
+    /* 居中对齐 */
+    overflow: auto;
+}
+
+.game-div2 {
+
+    width: 100%;
+    /* 设置宽度 */
+    height: 175%;
+    /* 设置高度 */
+    background-size: auto;
+    /* 使背景图像覆盖整个 div */
+    background-position: center;
+    /* 居中对齐 */
+    overflow: auto;
+}
